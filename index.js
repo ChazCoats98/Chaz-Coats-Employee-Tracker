@@ -20,7 +20,7 @@ function promptQuestions() {
         switch (data.prompt) {
             case "view all departments": 
             function viewDepartments() {
-
+                connection.query("SELECT * FROM departments", )
             }
             break;
             case "view all roles":
