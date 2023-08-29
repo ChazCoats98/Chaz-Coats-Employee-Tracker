@@ -3,10 +3,14 @@ var mysql = require('mysql2');
 require("dotenv").config();
 
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: "localhost",
     port: 3000,
-    user: 'root',
-})
+    user: "root",
+    password: '',
+    database: "employee_database"
+},
+console.log("connected to the employee database")
+);
 var dbNav = [
     {name: "prompt",
     type: "list",
@@ -50,10 +54,22 @@ var employeePrompt = [
     choices: []
 }
 ];
+var rolePrompt = [
+    {name: "employeeName",
+    type: "list",
+    message: "What is the name of the employee whose role you would like to change",
+    choices: []
+},
+    {name: "roleName",
+    type: "list",
+    message: "What is the new role of this employee",
+    choices: []
+}
+]
 
 function promptQuestions() {
     inquirer.prompt(dbNav).then(function(data) {
-        switch (data.prompt) {
+        switch (data.choices) {
             case "view all departments": 
             function viewDepartments() {
                 connection.query("SELECT * FROM departments", function(err, res) {
@@ -65,7 +81,9 @@ function promptQuestions() {
 
             break;
             case "view all employees":
-
+            function viewEmployees() {
+                connection.query("SELECT * FROM employees", function(err, res) {})
+            }
             break;
             case "add a department":
             function newDepartment() {
