@@ -4,13 +4,15 @@ require("dotenv").config();
 
 var connection = mysql.createConnection({
     host: "localhost",
-    port: 3000,
     user: "root",
-    password: '',
+    password: "MontegoBlueE92$",
     database: "employee_database"
 },
 console.log("connected to the employee database")
 );
+connection.connect((err) => {
+    promptQuestions();
+})
 var dbNav = [
     {name: "prompt",
     type: "list",
@@ -69,7 +71,7 @@ var rolePrompt = [
 
 function promptQuestions() {
     inquirer.prompt(dbNav).then(function(data) {
-        switch (data.choices) {
+        switch (data.prompt) {
             case "view all departments": 
             viewDepartments();
             break;
@@ -80,28 +82,16 @@ function promptQuestions() {
             viewEmployees();
             break;
             case "add a department":
-            function newDepartment() {
-                inquirer.prompt(departmentPrompt).then(function(data) {
-                    connection.query("INSERT INTO department (name) VALUES (?)", function(err, res) {
-
-                    });
-                });
-            }
+            newDepartment();
             break;
             case "add a role":
-            function newRole() {
-                inquirer.prompt(rolePrompt).then(function(data) {});
-            };
+            newRole();
             break;
             case "add an employee":
-            function newEmployee() {
-                inquirer.prompt(employeePrompt).then(function(data) {});
-            };
+            newEmployee();
             break;
             case "update employee role":
-            function updateRole() {
-                inquirer.prompt(rolePrompt).then(function(data) {});
-            };
+            updateRole();
             break; 
         }
     });
@@ -124,4 +114,20 @@ function viewEmployees() {
         console.log(res);
         promptQuestions();
     })
+}
+function newDepartment() {
+    inquirer.prompt(departmentPrompt).then(function(data) {
+        connection.query("INSERT INTO department (name) VALUES (?)", function(err, res) {
+
+        });
+    });
+}
+function newRole() {
+    inquirer.prompt(rolePrompt).then(function(data) {});
+}
+function newEmployee() {
+    inquirer.prompt(employeePrompt).then(function(data) {});
+}
+function updateRole() {
+    inquirer.prompt(rolePrompt).then(function(data) {});
 }
