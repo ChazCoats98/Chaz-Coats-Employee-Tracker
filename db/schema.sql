@@ -20,10 +20,3 @@ CREATE TABLE roles (
     salary DECIMAL,
     department_id INT NOT NULL,
 )
-
-INSERT INTO departments(name)
-values ("CEO"),
-("CFO"),
-("Department Lead"),
-("Software Engineer"),
-("Junior Web Developer")

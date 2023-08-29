@@ -1,8 +1,14 @@
 var inquirer = require('inquirer');
 var mysql = require('mysql2');
+var express = require('express');
+var PORT = process.env.PORT || 3001;
+var app = express();
 require("dotenv").config();
 
-var connection = mysql.createConnection({
+app.use(express.urlencoded({extended: false}));
+app.use(express.json);
+
+var db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "MontegoBlueE92$",
@@ -10,14 +16,22 @@ var connection = mysql.createConnection({
 },
 console.log("connected to the employee database")
 );
-connection.connect((err) => {
+db.connect();
+
+db.query("SELECT * FROM departments", function(err, result) {
+    if (err) throw err;
+    console.log("displaying departments");
+    console.table(result);
     promptQuestions();
-})
+});
+
+
+
 var dbNav = [
     {name: "prompt",
     type: "list",
     message: "Hello, what would you like to look at today?",
-    choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update employee role"]
+    choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update employee role", "end"]
 }
 ]
 var departmentPrompt = [
@@ -74,6 +88,7 @@ function promptQuestions() {
         switch (data.prompt) {
             case "view all departments": 
             viewDepartments();
+            console.log("view all departments");
             break;
             case "view all roles":
                 viewRoles();
@@ -97,27 +112,31 @@ function promptQuestions() {
     });
 }
 
+
 function viewDepartments() {
-    connection.query("SELECT * FROM departments", function(err, res) {
-        console.log(res);
+    console.log("departments function")
+    db.query("SELECT * FROM departments", function(err, result) {
+        if (err) throw err;
+        console.log("displaying departments");
+        console.table(result);
         promptQuestions();
     });
 }
 function viewRoles() {
-    connection.query("SELECT * FROM roles", function(err, res) {
+    db.query("SELECT * FROM roles", function(err, res) {
         console.log(res);
         promptQuestions();
     });
 }
 function viewEmployees() {
-    connection.query("SELECT * FROM employees", function(err, res) {
+    db.query("SELECT * FROM employees", function(err, res) {
         console.log(res);
         promptQuestions();
     })
 }
 function newDepartment() {
     inquirer.prompt(departmentPrompt).then(function(data) {
-        connection.query("INSERT INTO department (name) VALUES (?)", function(err, res) {
+        db.query("INSERT INTO department (name) VALUES (?)", function(err, res) {
 
         });
     });
@@ -131,3 +150,10 @@ function newEmployee() {
 function updateRole() {
     inquirer.prompt(rolePrompt).then(function(data) {});
 }
+
+app.use(function(req, res) {
+    res.status(404).end();
+})
+
+app.listen(PORT);
+
