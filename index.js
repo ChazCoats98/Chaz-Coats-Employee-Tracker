@@ -71,19 +71,13 @@ function promptQuestions() {
     inquirer.prompt(dbNav).then(function(data) {
         switch (data.choices) {
             case "view all departments": 
-            function viewDepartments() {
-                connection.query("SELECT * FROM departments", function(err, res) {
-
-                });
-            }
+            viewDepartments();
             break;
             case "view all roles":
-
+                viewRoles();
             break;
             case "view all employees":
-            function viewEmployees() {
-                connection.query("SELECT * FROM employees", function(err, res) {})
-            }
+            viewEmployees();
             break;
             case "add a department":
             function newDepartment() {
@@ -111,4 +105,23 @@ function promptQuestions() {
             break; 
         }
     });
+}
+
+function viewDepartments() {
+    connection.query("SELECT * FROM departments", function(err, res) {
+        console.log(res);
+        promptQuestions();
+    });
+}
+function viewRoles() {
+    connection.query("SELECT * FROM roles", function(err, res) {
+        console.log(res);
+        promptQuestions();
+    });
+}
+function viewEmployees() {
+    connection.query("SELECT * FROM employees", function(err, res) {
+        console.log(res);
+        promptQuestions();
+    })
 }

@@ -2,11 +2,11 @@ DROP DATABASE IF EXISTS employee_database;
 CREATE DATABASE employee_database;
 USE employee_database;
 
-CREATE TABLE department (
+CREATE TABLE departments (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(30)
 )
-CREATE TABLE employee (
+CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30),
     first_name VARCHAR(30),
@@ -14,7 +14,7 @@ CREATE TABLE employee (
     role_id INT NOT NULL,
     manager_id INT NOT NULL,
     )
-CREATE TABLE role (
+CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL,
