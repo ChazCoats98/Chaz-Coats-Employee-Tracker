@@ -16,16 +16,6 @@ var db = mysql.createConnection({
 },
 console.log("connected to the employee database")
 );
-db.connect();
-
-db.query("SELECT * FROM departments", function(err, result) {
-    if (err) throw err;
-    console.log("displaying departments");
-    console.table(result);
-    promptQuestions();
-});
-
-
 
 var dbNav = [
     {name: "prompt",
@@ -40,7 +30,7 @@ var departmentPrompt = [
     message: "Type the name of the department"
 }
 ];
-var rolePrompt = [
+var roleAdd = [
     {name: "newRole",
     type: "input",
     message: "Type the name of the role"
@@ -70,7 +60,7 @@ var employeePrompt = [
     choices: []
 }
 ];
-var rolePrompt = [
+var roleUpdate = [
     {name: "employeeName",
     type: "list",
     message: "What is the name of the employee whose role you would like to change",
@@ -108,6 +98,9 @@ function promptQuestions() {
             case "update employee role":
             updateRole();
             break; 
+            case "end":
+            end();
+            break;
         }
     });
 }
@@ -115,7 +108,7 @@ function promptQuestions() {
 
 function viewDepartments() {
     console.log("departments function")
-    db.query("SELECT * FROM departments", function(err, result) {
+    db.query("SELECT * FROM department", function(err, result) {
         if (err) throw err;
         console.log("displaying departments");
         console.table(result);
@@ -123,14 +116,14 @@ function viewDepartments() {
     });
 }
 function viewRoles() {
-    db.query("SELECT * FROM roles", function(err, res) {
-        console.log(res);
+    db.query("SELECT * FROM role", function(err, res) {
+        console.table(res);
         promptQuestions();
     });
 }
 function viewEmployees() {
-    db.query("SELECT * FROM employees", function(err, res) {
-        console.log(res);
+    db.query("SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, role.salary AS salary, department.name AS department, manager.first_name AS manager_firstName, manager.last_name AS manager_lastName FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;", function(err, res) {
+        console.table(res);
         promptQuestions();
     })
 }
@@ -142,14 +135,19 @@ function newDepartment() {
     });
 }
 function newRole() {
-    inquirer.prompt(rolePrompt).then(function(data) {});
+    inquirer.prompt(roleAdd).then(function(data) {});
 }
 function newEmployee() {
     inquirer.prompt(employeePrompt).then(function(data) {});
 }
 function updateRole() {
-    inquirer.prompt(rolePrompt).then(function(data) {});
+    inquirer.prompt(roleUpdate).then(function(data) {});
 }
+function end() {
+    process.exit();
+};
+
+promptQuestions();
 
 app.use(function(req, res) {
     res.status(404).end();
