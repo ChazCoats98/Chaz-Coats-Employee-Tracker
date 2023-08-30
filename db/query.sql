@@ -1,3 +1,4 @@
+-- used as reference. Had to work select statements into query functions --
 SELECT
 role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department on role.department_id = department.id;
 
