@@ -135,7 +135,12 @@ function newDepartment() {
     });
 }
 function newRole() {
-    inquirer.prompt(roleAdd).then(function(data) {});
+    inquirer.prompt(roleAdd).then(function(data) {
+        db.query(`INSERT INTO role (title, salary) VALUES (?, ?, ?)`, [data.newRole, data.newSalary, ], function(err, res) {
+            viewRoles();
+            promptQuestions();
+        });
+    });
 }
 function newEmployee() {
     inquirer.prompt(employeePrompt).then(function(data) {});
