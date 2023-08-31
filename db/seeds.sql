@@ -1,3 +1,4 @@
+--inserts initial values into all 3 tables--
 INSERT INTO department (name)
 values ("Management"),
 ("Software Development"),

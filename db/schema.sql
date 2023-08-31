@@ -1,11 +1,12 @@
 DROP DATABASE IF EXISTS employee_database;
 CREATE DATABASE employee_database;
 USE employee_database;
-
+--creates department table--
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30)
 );
+--creates role table. links role and department table.--
 CREATE TABLE role (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30),
@@ -15,6 +16,7 @@ CREATE TABLE role (
     REFERENCES department(id)
     ON DELETE SET NULL
 );
+--creates employee table. links role table and links to itself for manager values.--
 CREATE TABLE employee (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30),
