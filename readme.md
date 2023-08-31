@@ -26,10 +26,11 @@
   No contribution guidelines. Feel free to contribute.
 
   ## Demo
-  
+  [Untitled_ Aug 31, 2023 1_53 PM.webm](https://github.com/ChazCoats98/Chaz-Coats-Employee-Tracker/assets/134428862/b1bc6110-d1a4-41df-a82c-4adfccff3432)
+
 
   ## Repository
-
+  GitHub Repo: https://github.com/ChazCoats98/Chaz-Coats-Employee-Tracker
   
   ## Questions
   To view my GitHub profile, visit [GitHub] (https://github.com/ChazCoats98).
